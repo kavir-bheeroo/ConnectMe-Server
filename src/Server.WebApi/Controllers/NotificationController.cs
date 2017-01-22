@@ -29,7 +29,7 @@ namespace Server.WebApi.Controllers
                 request.ContentType = "application/json";
                 request.Headers["Authorization"] = "key=AAAAP06ZAYw:APA91bGS66L-vzpsWhMoptyBciPuI6gjoQxrx4NbQjjb2zmhdceB6rs6JdrcEKo0j3jeoeD9PlnL4FrM0607o7SZ7HHxUG4Axd0N8_Ki1UekCxZHlOyuIjS4sKxr8LfILCP2OZ71pbR_Xfd_MV4r9vWKM8EDQUjtbg";
                 
-                string postData = "{ \"data\": {\"score\": \"5x1\",},\"to\" : \"bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1...\"}";
+                string postData = "{ \"data\": {\"score\": \"5x1\",},\"to\" : \"eb6OF7Dqq1c:APA91bEnrEKeLQ7qKOm1pg4pACYv8o4qMxs1SyIlMX76sZueHUOIrRyuKi6tYYRMGH8jACBDgHemenfgvaEUNUOxgUwiqTGE5efZOptkaBphHU0STGnzbX5yiMnBqtXsyW2YvBT5CCuL\"}";
                 byte[] byteArray = Encoding.UTF8.GetBytes (postData);
 
                 using (var dataStream = await request.GetRequestStreamAsync())
