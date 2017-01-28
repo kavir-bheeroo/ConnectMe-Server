@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 //using ConnectMe.Api.Services;
 
 namespace ConnectMe.Api
@@ -44,6 +45,11 @@ namespace ConnectMe.Api
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("ConnectMe", new Info { Title = "ConnectMe.API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +61,13 @@ namespace ConnectMe.Api
             app.UseIdentity();
 
             app.UseMvc();
+
+            // For more info on Swagger, visit https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+            app.UseSwagger();
+            app.UseSwaggerUi(c =>
+            {
+                c.SwaggerEndpoint("/swagger/ConnectMe/swagger.json", "My API V1");
+            });
         }
     }
 }
