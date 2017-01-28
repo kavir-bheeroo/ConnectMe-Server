@@ -1,2 +1,2 @@
-# FirebaseCM-Server
-A demo of an app server for Firebase Cloud Messaging
+# ConnectMe-Server
+A Web API server used to enable communication among clients 
