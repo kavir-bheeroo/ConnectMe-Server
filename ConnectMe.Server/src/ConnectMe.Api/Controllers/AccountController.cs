@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using ConnectMe.Api.Models;
-using ConnectMe.Api.Models.AccountViewModels;
+using ConnectMe.Api.Models.AccountResourceModels;
 //using ConnectMe.Api.Services;
 
 namespace ConnectMe.Api.Controllers
@@ -44,7 +44,7 @@ namespace ConnectMe.Api.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody]LoginResourceModel model)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace ConnectMe.Api.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterResourceModel model)
         {
             if (ModelState.IsValid)
             {

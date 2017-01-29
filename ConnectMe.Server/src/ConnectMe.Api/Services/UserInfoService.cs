@@ -1,5 +1,6 @@
 ﻿using ConnectMe.Api.Data;
 using ConnectMe.Api.Models;
+using ConnectMe.Api.Models.UserInfoResourceModels;
 using System;
 
 namespace ConnectMe.Api.Services

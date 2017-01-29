@@ -1,4 +1,4 @@
-﻿namespace ConnectMe.Api.Models
+﻿namespace ConnectMe.Api.Models.UserInfoResourceModels
 {
     public class CreateUserInfoRequest
     {

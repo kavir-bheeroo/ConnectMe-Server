@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ConnectMe.Api.Models.AccountViewModels
+namespace ConnectMe.Api.Models.AccountResourceModels
 {
-    public class RegisterViewModel
+    public class RegisterResourceModel
     {
         //[Required]
         //[EmailAddress]

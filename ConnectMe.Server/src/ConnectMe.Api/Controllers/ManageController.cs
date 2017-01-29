@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ConnectMe.Api.Models;
-using ConnectMe.Api.Models.ManageViewModels;
+using ConnectMe.Api.Models.ManageResourceModels;
 
 namespace ConnectMe.Api.Controllers
 {

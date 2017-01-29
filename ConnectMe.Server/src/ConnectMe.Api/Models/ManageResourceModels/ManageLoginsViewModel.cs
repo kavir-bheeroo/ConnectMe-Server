@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace ConnectMe.Api.Models.ManageViewModels
+namespace ConnectMe.Api.Models.ManageResourceModels
 {
     public class ManageLoginsViewModel
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace ConnectMe.Api.Models.ManageViewModels
+namespace ConnectMe.Api.Models.ManageResourceModels
 {
     public class IndexViewModel
     {

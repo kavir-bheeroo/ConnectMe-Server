@@ -1,4 +1,5 @@
 ﻿using ConnectMe.Api.Models;
+using ConnectMe.Api.Models.UserInfoResourceModels;
 
 namespace ConnectMe.Api.Services
 {

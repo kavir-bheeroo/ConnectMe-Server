@@ -1,4 +1,5 @@
 ﻿using ConnectMe.Api.Models;
+using ConnectMe.Api.Models.UserInfoResourceModels;
 using ConnectMe.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
