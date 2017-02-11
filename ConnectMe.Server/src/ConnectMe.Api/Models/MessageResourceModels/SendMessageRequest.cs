@@ -2,7 +2,8 @@
 {
     public class SendMessageRequest
     {
-        public string UserTo { get; set; }
-        public string Message { get; set; }
+        public string ReceiverToken { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
     }
 }

@@ -49,6 +49,7 @@ namespace ConnectMe.Api
 
             services.AddSingleton<IDatabaseContext, DatabaseContext>();
             services.AddTransient<IUserInfoService, UserInfoService>();
+            services.AddTransient<IMessagingService, MessagingService>();
 
             services.AddMvc();
 

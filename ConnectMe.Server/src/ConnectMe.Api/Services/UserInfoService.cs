@@ -22,7 +22,8 @@ namespace ConnectMe.Api.Services
                     Id = Guid.NewGuid().ToString(),
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
-                    UserId = user.Id
+                    UserId = user.Id,
+                    MessagingToken = request.MessagingToken
                 });
 
             _databaseContext.SaveChanges();
