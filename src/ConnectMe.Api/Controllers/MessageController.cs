@@ -18,12 +18,20 @@ namespace ConnectMe.Api.Controllers
             _messagingService = messagingService;
         }
 
-        // POST api/values
+        [HttpPost]
+        [Route("notify")]
+        public async Task<IActionResult> SendNotificationMessageToCloud([FromBody]SendMessageRequest request)
+        {
+            var resultCode = await _messagingService.SendNotificationMessage(request.ReceiverToken, request.Title, request.Body);
+
+            return resultCode == HttpStatusCode.OK ? new OkResult() : new StatusCodeResult((int)resultCode);
+        }
+
         [HttpPost]
         [Route("send")]
-        public async Task<IActionResult> SendToCloud([FromBody]SendMessageRequest request)
+        public async Task<IActionResult> SendDataMessageToCloud([FromBody]SendMessageRequest request)
         {
-            var resultCode = await _messagingService.SendToFCM(request.ReceiverToken, request.Title, request.Body);
+            var resultCode = await _messagingService.SendDataMessage(request.ReceiverToken, request.Title, request.Body);
 
             return resultCode == HttpStatusCode.OK ? new OkResult() : new StatusCodeResult((int)resultCode);
         }

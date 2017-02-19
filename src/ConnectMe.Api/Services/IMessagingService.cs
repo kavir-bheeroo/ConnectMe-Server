@@ -5,6 +5,7 @@ namespace ConnectMe.Api.Services
 {
     public interface IMessagingService
     {
-        Task<HttpStatusCode> SendToFCM(string deviceToken, string title, string body);
+        Task<HttpStatusCode> SendNotificationMessage(string deviceToken, string title, string body);
+        Task<HttpStatusCode> SendDataMessage(string deviceToken, string title, string body);
     }
 }
