@@ -38,6 +38,51 @@ namespace ConnectMe.Api.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody]RegisterResourceModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                        // Send an email with this link
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        return new ObjectResult("Registered");
+                    }
+
+                    AddErrors(result);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return new ObjectResult("Error");
+        }
 
         //
         // POST: /Account/Login
@@ -72,46 +117,6 @@ namespace ConnectMe.Api.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return new ObjectResult("Error");
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return new ObjectResult("Error");
-        }
-
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterResourceModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                    var result = await _userManager.CreateAsync(user, model.Password);
-
-                    if (result.Succeeded)
-                    {
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                        // Send an email with this link
-                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(3, "User created a new account with password.");
-                        return new ObjectResult("Registered");
-                    }
-
-                    AddErrors(result);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message);
                 }
             }
 
