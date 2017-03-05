@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ConnectMe.Api.Services
@@ -10,10 +12,41 @@ namespace ConnectMe.Api.Services
     // For more details see this link http://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
+        private readonly MailOptions _mailOptions;
+
+        public AuthMessageSender(MailOptions mailOptions)
+        {
+            _mailOptions = mailOptions;
+        }
+
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var emailTask = Task.Run(async () =>
+            {
+                try
+                {
+                    var emailMessage = new MimeMessage();
+
+                    emailMessage.From.Add(new MailboxAddress("", _mailOptions.MailFrom));
+                    emailMessage.To.Add(new MailboxAddress("", email));
+                    emailMessage.Subject = subject;
+                    emailMessage.Body = new TextPart("plain") { Text = message };
+
+                    using (var client = new SmtpClient())
+                    {
+                        //client.LocalDomain = "some.domain.com";
+                        await client.ConnectAsync(_mailOptions.SmtpServer, _mailOptions.SmtpPort, SecureSocketOptions.None).ConfigureAwait(false);
+                        await client.SendAsync(emailMessage).ConfigureAwait(false);
+                        await client.DisconnectAsync(true).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            });
+
+            return Task.FromResult(emailTask);
         }
 
         public Task SendSmsAsync(string number, string message)

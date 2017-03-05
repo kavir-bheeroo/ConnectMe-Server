@@ -51,6 +51,9 @@ namespace ConnectMe.Api
             services.AddTransient<IUserInfoService, UserInfoService>();
             services.AddTransient<IMessagingService, MessagingService>();
 
+            // Configure using a sub-section of the appsettings.json file.
+            services.Configure<MailOptions>(Configuration.GetSection("MailSettings"));
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
