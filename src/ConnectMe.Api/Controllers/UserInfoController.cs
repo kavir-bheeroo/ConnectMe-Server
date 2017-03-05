@@ -38,7 +38,7 @@ namespace ConnectMe.Api.Controllers
                 {
                     var user = await _userManager.GetUserAsync(HttpContext.User);
 
-                    _userInfoService.AddUserInfo(request, user);
+                    _userInfoService.AddUserInfo(request, user.Id);
                     _logger.LogInformation(1, "User info created.");
 
                     return new ObjectResult("User info created.");

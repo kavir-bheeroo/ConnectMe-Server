@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using ConnectMe.Api.Models;
+using ConnectMe.Api.Models.AccountResourceModels;
+using ConnectMe.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using ConnectMe.Api.Models;
-using ConnectMe.Api.Models.AccountResourceModels;
-//using ConnectMe.Api.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace ConnectMe.Api.Controllers
 {
@@ -20,21 +16,21 @@ namespace ConnectMe.Api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        //private readonly IEmailSender _emailSender;
-        //private readonly ISmsSender _smsSender;
+        private readonly IEmailSender _emailSender;
+        private readonly IUserInfoService _userInfoService;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            //IEmailSender emailSender,
-            //ISmsSender smsSender,
+            IEmailSender emailSender,
+            IUserInfoService userInfoService,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            //_emailSender = emailSender;
-            //_smsSender = smsSender;
+            _emailSender = emailSender;
+            _userInfoService = userInfoService;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -49,6 +45,7 @@ namespace ConnectMe.Api.Controllers
             {
                 try
                 {
+                    // Create new user
                     var user = new ApplicationUser
                     {
                         UserName = model.Email,
@@ -58,6 +55,17 @@ namespace ConnectMe.Api.Controllers
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
+                    var newlyCreatedUser = await _userManager.FindByEmailAsync(user.Email);
+
+                    // Create user info
+                    _userInfoService.AddUserInfo(
+                        new Models.UserInfoResourceModels.CreateUserInfoRequest
+                        {
+                            Latitude = model.Latitude,
+                            Longitude = model.Longitude,
+                            MessagingToken = model.MessagingToken
+                        },
+                        newlyCreatedUser.Id);
 
                     if (result.Succeeded)
                     {

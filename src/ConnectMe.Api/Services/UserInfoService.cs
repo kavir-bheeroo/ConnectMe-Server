@@ -14,7 +14,7 @@ namespace ConnectMe.Api.Services
             _databaseContext = databaseContext;
         }
 
-        public void AddUserInfo(CreateUserInfoRequest request, ApplicationUser user)
+        public void AddUserInfo(CreateUserInfoRequest request, string userId)
         {
             _databaseContext.UserInfo.Add(
                 new UserInfo
@@ -22,7 +22,7 @@ namespace ConnectMe.Api.Services
                     Id = Guid.NewGuid().ToString(),
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
-                    UserId = user.Id,
+                    UserId = userId,
                     MessagingToken = request.MessagingToken
                 });
 

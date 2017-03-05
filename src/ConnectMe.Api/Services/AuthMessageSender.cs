@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
 using System.Diagnostics;
@@ -12,9 +13,9 @@ namespace ConnectMe.Api.Services
     // For more details see this link http://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
-        private readonly MailOptions _mailOptions;
+        private readonly IOptions<MailOptions> _mailOptions;
 
-        public AuthMessageSender(MailOptions mailOptions)
+        public AuthMessageSender(IOptions<MailOptions> mailOptions)
         {
             _mailOptions = mailOptions;
         }
@@ -27,7 +28,7 @@ namespace ConnectMe.Api.Services
                 {
                     var emailMessage = new MimeMessage();
 
-                    emailMessage.From.Add(new MailboxAddress("", _mailOptions.MailFrom));
+                    emailMessage.From.Add(new MailboxAddress("", _mailOptions.Value.MailFrom));
                     emailMessage.To.Add(new MailboxAddress("", email));
                     emailMessage.Subject = subject;
                     emailMessage.Body = new TextPart("plain") { Text = message };
@@ -35,7 +36,7 @@ namespace ConnectMe.Api.Services
                     using (var client = new SmtpClient())
                     {
                         //client.LocalDomain = "some.domain.com";
-                        await client.ConnectAsync(_mailOptions.SmtpServer, _mailOptions.SmtpPort, SecureSocketOptions.None).ConfigureAwait(false);
+                        await client.ConnectAsync(_mailOptions.Value.SmtpServer, _mailOptions.Value.SmtpPort, SecureSocketOptions.None).ConfigureAwait(false);
                         await client.SendAsync(emailMessage).ConfigureAwait(false);
                         await client.DisconnectAsync(true).ConfigureAwait(false);
                     }

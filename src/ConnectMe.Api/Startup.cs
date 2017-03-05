@@ -50,6 +50,10 @@ namespace ConnectMe.Api
             services.AddSingleton<IDatabaseContext, DatabaseContext>();
             services.AddTransient<IUserInfoService, UserInfoService>();
             services.AddTransient<IMessagingService, MessagingService>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+
+            // Adds services required for using options.
+            services.AddOptions();
 
             // Configure using a sub-section of the appsettings.json file.
             services.Configure<MailOptions>(Configuration.GetSection("MailSettings"));

@@ -5,7 +5,7 @@ namespace ConnectMe.Api.Services
 {
     public interface IUserInfoService
     {
-        void AddUserInfo(CreateUserInfoRequest request, ApplicationUser user);
+        void AddUserInfo(CreateUserInfoRequest request, string userId);
         void UpdateUserInfo();
     }
 }

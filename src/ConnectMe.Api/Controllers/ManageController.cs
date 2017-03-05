@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ConnectMe.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ConnectMe.Api.Models;
-using ConnectMe.Api.Models.ManageResourceModels;
 
 namespace ConnectMe.Api.Controllers
 {
