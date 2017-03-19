@@ -53,5 +53,20 @@ namespace ConnectMe.Api.Controllers
         }
 
         //todo: add a get for name/image/coordinates.. create resource model.
+
+        [HttpPost]
+        [Route("findNearbyUsers")]
+        public IActionResult FindNearbyUsers(FindUserRequest request)
+        {
+            request.NumberOfRecords = request.NumberOfRecords.HasValue ? request.NumberOfRecords : 10;
+            return new OkObjectResult(_userInfoService.FindNearbyUsers(request));
+        }
+
+        [HttpPost]
+        [Route("findNearbyWorkers")]
+        public IActionResult FindNearbyWorkers(FindUserRequest request)
+        {
+            return new OkObjectResult(_userInfoService.FindNearbyWorkers(request));
+        }
     }
 }

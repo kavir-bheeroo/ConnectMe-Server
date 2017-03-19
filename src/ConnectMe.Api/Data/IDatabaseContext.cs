@@ -6,6 +6,8 @@ namespace ConnectMe.Api.Data
     public interface IDatabaseContext
     {
         DbSet<UserInfo> UserInfo { get; set; }
+        DbSet<Worker> Worker { get; set; }
+        DbSet<WorkerType> WorkerType { get; set; }
 
         int SaveChanges();
     }

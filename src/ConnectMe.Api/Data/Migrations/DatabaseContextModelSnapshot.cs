@@ -39,12 +39,12 @@ namespace ConnectMe.Api.Data.Migrations
 
             modelBuilder.Entity("ConnectMe.Api.Models.Worker", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("WorkerTypeId");
+                    b.Property<int>("WorkerTypeId");
 
                     b.HasKey("Id");
 

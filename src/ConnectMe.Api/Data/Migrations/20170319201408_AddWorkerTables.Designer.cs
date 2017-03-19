@@ -8,7 +8,7 @@ using ConnectMe.Api.Data;
 namespace ConnectMe.Api.Migrations.Database
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170319194335_AddWorkerTables")]
+    [Migration("20170319201408_AddWorkerTables")]
     partial class AddWorkerTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,12 +40,12 @@ namespace ConnectMe.Api.Migrations.Database
 
             modelBuilder.Entity("ConnectMe.Api.Models.Worker", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("WorkerTypeId");
+                    b.Property<int>("WorkerTypeId");
 
                     b.HasKey("Id");
 

@@ -1,5 +1,4 @@
-﻿using ConnectMe.Api.Models;
-using ConnectMe.Api.Models.UserInfoResourceModels;
+﻿using ConnectMe.Api.Models.UserInfoResourceModels;
 
 namespace ConnectMe.Api.Services
 {
@@ -7,5 +6,8 @@ namespace ConnectMe.Api.Services
     {
         void AddUserInfo(CreateUserInfoRequest request, string userId);
         void UpdateUserInfo();
+        FindUserResponse FindNearbyUsers(FindUserRequest request);
+        FindUserResponse FindNearbyWorkers(FindUserRequest request);
+
     }
 }

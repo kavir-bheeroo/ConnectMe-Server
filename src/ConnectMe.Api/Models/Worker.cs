@@ -7,10 +7,10 @@ namespace ConnectMe.Api.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string UserId { get; set; }
-        public string WorkerTypeId { get; set; }
+        public int WorkerTypeId { get; set; }
 
         [ForeignKey("UserId")]
         protected virtual ApplicationUser Users { get; set; }

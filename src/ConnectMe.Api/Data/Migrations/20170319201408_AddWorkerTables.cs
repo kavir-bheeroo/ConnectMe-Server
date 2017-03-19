@@ -13,10 +13,9 @@ namespace ConnectMe.Api.Migrations.Database
                 name: "Worker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
-                    WorkerTypeId = table.Column<string>(nullable: true)
+                    WorkerTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
