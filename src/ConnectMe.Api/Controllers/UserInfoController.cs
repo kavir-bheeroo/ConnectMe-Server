@@ -51,5 +51,7 @@ namespace ConnectMe.Api.Controllers
 
             return new ObjectResult("Error");
         }
+
+        //todo: add a get for name/image/coordinates.. create resource model.
     }
 }

@@ -23,7 +23,8 @@ namespace ConnectMe.Api.Services
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
                     UserId = userId,
-                    MessagingToken = request.MessagingToken
+                    MessagingToken = request.MessagingToken,
+                    Image = request.Image
                 });
 
             _databaseContext.SaveChanges();

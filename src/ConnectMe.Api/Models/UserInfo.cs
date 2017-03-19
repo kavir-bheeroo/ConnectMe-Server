@@ -13,5 +13,8 @@ namespace ConnectMe.Api.Models
         public double Longitude { get; set; }
         public string UserId { get; set; }
         public string MessagingToken { get; set; }
+
+        [Column(TypeName = "varchar(MAX)")]
+        public string Image { get; set; }
     }
 }

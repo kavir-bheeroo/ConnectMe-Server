@@ -21,6 +21,9 @@ namespace ConnectMe.Api.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Image")
+                        .HasColumnType("varchar(MAX)");
+
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
@@ -32,6 +35,32 @@ namespace ConnectMe.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfo");
+                });
+
+            modelBuilder.Entity("ConnectMe.Api.Models.Worker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("WorkerTypeId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Worker");
+                });
+
+            modelBuilder.Entity("ConnectMe.Api.Models.WorkerType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkerType");
                 });
         }
     }
