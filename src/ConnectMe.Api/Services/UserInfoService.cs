@@ -64,7 +64,7 @@ namespace ConnectMe.Api.Services
             return null;
         }
 
-        public FindUserResponse FindNearbyWorkers(FindUserRequest request)
+        public async Task<FindUserResponse> FindNearbyWorkers(FindUserRequest request)
         {
             throw new NotImplementedException();
         }
@@ -73,5 +73,7 @@ namespace ConnectMe.Api.Services
         {
             return Sqrt(Pow(x2 - x1, 2) + Pow(y2 - y1, 2));
         }
+
+ 
     }
 }

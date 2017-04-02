@@ -1,4 +1,5 @@
 ﻿using ConnectMe.Api.Models.UserInfoResourceModels;
+using System.Threading.Tasks;
 
 namespace ConnectMe.Api.Services
 {
@@ -6,8 +7,7 @@ namespace ConnectMe.Api.Services
     {
         void AddUserInfo(CreateUserInfoRequest request, string userId);
         void UpdateUserInfo();
-        FindUserResponse FindNearbyUsers(FindUserRequest request);
-        FindUserResponse FindNearbyWorkers(FindUserRequest request);
-
+        Task<FindUserResponse> FindNearbyUsers(FindUserRequest request);
+        Task<FindUserResponse> FindNearbyWorkers(FindUserRequest request);
     }
 }
