@@ -47,21 +47,30 @@ namespace ConnectMe.Api.Services
         {
             // Get all users.
             var users = ((DbContext)_databaseContext).Set<UserInfo>();
-            var distancesFromOrigin = new List<double>();
+            var distancesFromOrigin = new List<UserResourceModel>();
 
             // Calculate distance with all users. O(n)
-            await users.ForEachAsync((u) => 
+            await users.ForEachAsync(u => 
                 {
-                    distancesFromOrigin.Add(CalculateDistance(request.Latitude, request.Longitude, u.Latitude, u.Longitude));
+                    distancesFromOrigin.Add(new UserResourceModel
+                    {
+                        Distance = CalculateDistance(request.Latitude, request.Longitude, u.Latitude, u.Longitude),
+                        UserId = u.UserId,
+                        Image = u.Image
+                    });
                 });
 
             // Sort distance in ascending order. Use merge sort. O(n log n)
-            distancesFromOrigin.Sort();
-
             // Take first n depending on number of records requested.
-            //return distancesFromOrigin.Take(request.NumberOfRecords.Value);
+            var sortedUserListByDistances = distancesFromOrigin
+                                            .OrderBy(u => u.Distance)
+                                            .Take(request.NumberOfRecords ?? 10)
+                                            .ToList();
 
-            return null;
+            return new FindUserResponse
+            {
+                Users = sortedUserListByDistances
+            };
         }
 
         public async Task<FindUserResponse> FindNearbyWorkers(FindUserRequest request)
