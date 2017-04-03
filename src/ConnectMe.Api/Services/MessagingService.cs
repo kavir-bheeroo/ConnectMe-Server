@@ -1,6 +1,8 @@
-﻿using ConnectMe.Api.Models;
+﻿using ConnectMe.Api.Data;
+using ConnectMe.Api.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,14 @@ namespace ConnectMe.Api.Services
         const string serverKey = "AAAAuQKPhKA:APA91bEzKWc78VPisSQa4BwCh9gCqJE8cOkdC_vC6HxzCDf8raYwA2_T95Ji1gzbleBBYmC4_Ma6rSYgNGfqL4dk0KeURYjnDST0jvP87JMg-9EQomeCvGzfy-y2XVuShU7sEL48WNpV";
         const string firebaseCMUrl = "https://fcm.googleapis.com/fcm/send";
 
-        public async Task<HttpStatusCode> SendNotificationMessage(string deviceToken, string title, string body)
+        private readonly IDatabaseContext _databaseContext;
+
+        public MessagingService(IDatabaseContext databaseContext)
+        {
+            _databaseContext = databaseContext;
+        }
+
+        public async Task<HttpStatusCode> SendNotificationMessage(string currentUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -36,6 +45,16 @@ namespace ConnectMe.Api.Services
 
                 var httpResponse = await request.GetResponseAsync() as HttpWebResponse;
 
+                // Insert message in database.
+                _databaseContext.Message.Add(new Message
+                {
+                    Body = body,
+                    UserId = currentUserId,
+                    FromUserId = null, // todo: get from userinfo table
+                    IsRead = false,
+                    Timestamp = DateTime.Now
+                });
+
                 return httpResponse.StatusCode;
             }
             catch
@@ -44,7 +63,7 @@ namespace ConnectMe.Api.Services
             }
         }
 
-        public async Task<HttpStatusCode> SendDataMessage(string deviceToken, string title, string body)
+        public async Task<HttpStatusCode> SendDataMessage(string currentUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -67,6 +86,16 @@ namespace ConnectMe.Api.Services
                 }
 
                 var httpResponse = await request.GetResponseAsync() as HttpWebResponse;
+
+                // Insert message in database.
+                _databaseContext.Message.Add(new Message
+                {
+                    Body = body,
+                    UserId = currentUserId,
+                    FromUserId = null, // todo: get from userinfo table
+                    IsRead = false,
+                    Timestamp = DateTime.Now
+                });
 
                 return httpResponse.StatusCode;
             }

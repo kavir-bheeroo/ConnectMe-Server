@@ -8,6 +8,7 @@ namespace ConnectMe.Api.Data
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Worker> Worker { get; set; }
         public DbSet<WorkerType> WorkerType { get; set; }
+        public DbSet<Message> Message { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
