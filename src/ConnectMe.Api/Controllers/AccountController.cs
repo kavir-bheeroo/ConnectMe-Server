@@ -52,7 +52,8 @@ namespace ConnectMe.Api.Controllers
                         UserName = model.Email,
                         Email = model.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName
+                        LastName = model.LastName,
+                        IsWorker = false
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -108,7 +109,8 @@ namespace ConnectMe.Api.Controllers
                         UserName = model.Email,
                         Email = model.Email,
                         FirstName = model.FirstName,
-                        LastName = model.LastName
+                        LastName = model.LastName,
+                        IsWorker = true
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);

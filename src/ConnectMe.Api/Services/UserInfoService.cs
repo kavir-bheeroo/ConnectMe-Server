@@ -60,13 +60,19 @@ namespace ConnectMe.Api.Services
             var distancesFromOrigin = new List<UserResourceModel>();
 
             // Calculate distance with all users. O(n)
-            await users.ForEachAsync(u => 
+            await users.ForEachAsync(async u =>
                 {
+                    var user = await _userManager.FindByIdAsync(u.Id);
+
                     distancesFromOrigin.Add(new UserResourceModel
                     {
                         Distance = CalculateDistance(request.Latitude, request.Longitude, u.Latitude, u.Longitude),
                         UserId = u.UserId,
-                        Image = u.Image
+                        Image = u.Image,
+                        Latitude = u.Latitude,
+                        Longitude = u.Longitude,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
                     });
                 });
 
@@ -85,14 +91,52 @@ namespace ConnectMe.Api.Services
 
         public async Task<FindUserResponse> FindNearbyWorkers(FindUserRequest request)
         {
-            throw new NotImplementedException();
+            // Get all users.
+            var users = ((DbContext)_databaseContext).Set<UserInfo>();
+            var distancesFromOrigin = new List<UserResourceModel>();
+
+            // Calculate distance with all users. O(n)
+            await users.ForEachAsync(async u =>
+            {
+                var user = await _userManager.FindByIdAsync(u.Id);
+
+                // Add only workers.
+                if (user.IsWorker)
+                {
+                    var worker = _databaseContext.Worker.First(w => w.UserId.Equals(user.Id));
+
+                    distancesFromOrigin.Add(new UserResourceModel
+                    {
+                        Distance = CalculateDistance(request.Latitude, request.Longitude, u.Latitude, u.Longitude),
+                        UserId = u.UserId,
+                        Image = u.Image,
+                        Latitude = u.Latitude,
+                        Longitude = u.Longitude,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        WorkerId = worker.Id,
+                        WorkerTypeId = worker.WorkerTypeId
+                    });
+                }
+            });
+
+            // Sort distance in ascending order. Use merge sort. O(n log n)
+            // Take first n depending on number of records requested.
+            var sortedUserListByDistances = distancesFromOrigin
+                                            .OrderBy(u => u.Distance)
+                                            .Take(request.NumberOfRecords ?? 10)
+                                            .ToList();
+
+            return new FindUserResponse
+            {
+                Users = sortedUserListByDistances
+            };
         }
 
         private double CalculateDistance(double x1, double y1, double x2, double y2)
         {
             return Sqrt(Pow(x2 - x1, 2) + Pow(y2 - y1, 2));
         }
-
- 
     }
 }
