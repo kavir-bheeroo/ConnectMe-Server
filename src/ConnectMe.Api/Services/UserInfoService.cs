@@ -43,6 +43,16 @@ namespace ConnectMe.Api.Services
             throw new NotImplementedException();
         }
 
+        public void AddWorker(CreateWorkerRequest request)
+        {
+            _databaseContext.Worker.Add(
+                new Worker
+                {
+                    UserId = request.UserId,
+                    WorkerTypeId = request.WorkerTypeId
+                });
+        }
+
         public async Task<FindUserResponse> FindNearbyUsers(FindUserRequest request)
         {
             // Get all users.

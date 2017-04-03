@@ -1,5 +1,6 @@
 ﻿using ConnectMe.Api.Models;
 using ConnectMe.Api.Models.AccountResourceModels;
+using ConnectMe.Api.Models.UserInfoResourceModels;
 using ConnectMe.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -59,13 +60,77 @@ namespace ConnectMe.Api.Controllers
 
                     // Create user info
                     _userInfoService.AddUserInfo(
-                        new Models.UserInfoResourceModels.CreateUserInfoRequest
+                        new CreateUserInfoRequest
                         {
                             Latitude = model.Latitude,
                             Longitude = model.Longitude,
                             MessagingToken = model.MessagingToken
                         },
                         newlyCreatedUser.Id);
+
+                    if (result.Succeeded)
+                    {
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                        // Send an email with this link
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        return new ObjectResult("Registered");
+                    }
+
+                    AddErrors(result);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return new ObjectResult("Error");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("registerWorker")]
+        public async Task<IActionResult> RegisterWorker([FromBody]RegisterResourceModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Create new user
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    var newlyCreatedUser = await _userManager.FindByEmailAsync(user.Email);
+
+                    // Create user info
+                    _userInfoService.AddUserInfo(
+                        new CreateUserInfoRequest
+                        {
+                            Latitude = model.Latitude,
+                            Longitude = model.Longitude,
+                            MessagingToken = model.MessagingToken
+                        },
+                        newlyCreatedUser.Id);
+
+                    // Create worker.
+                    _userInfoService.AddWorker(
+                        new CreateWorkerRequest
+                        {
+                            UserId = newlyCreatedUser.Id,
+                            WorkerTypeId = model.WorkerTypeId
+                        });
 
                     if (result.Succeeded)
                     {

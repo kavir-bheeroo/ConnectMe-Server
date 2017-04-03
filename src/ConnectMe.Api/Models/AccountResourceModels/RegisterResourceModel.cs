@@ -11,5 +11,7 @@
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string MessagingToken { get; set; }
+
+        public int WorkerTypeId { get; set; }
     }
 }

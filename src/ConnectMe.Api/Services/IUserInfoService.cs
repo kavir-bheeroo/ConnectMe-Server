@@ -7,6 +7,7 @@ namespace ConnectMe.Api.Services
     {
         void AddUserInfo(CreateUserInfoRequest request, string userId);
         void UpdateUserInfo();
+        void AddWorker(CreateWorkerRequest request);
         Task<FindUserResponse> FindNearbyUsers(FindUserRequest request);
         Task<FindUserResponse> FindNearbyWorkers(FindUserRequest request);
     }
