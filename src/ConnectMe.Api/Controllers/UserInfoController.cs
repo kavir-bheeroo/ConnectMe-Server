@@ -15,17 +15,18 @@ namespace ConnectMe.Api.Controllers
     public class UserInfoController : Controller
     {
         private readonly IUserInfoService _userInfoService;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
+        
 
         public UserInfoController(
             IUserInfoService userInfoService,
-            UserManager<ApplicationUser> userManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            UserManager<ApplicationUser> userManager)
         {
             _userInfoService = userInfoService;
-            _userManager = userManager;
             _logger = loggerFactory.CreateLogger<UserInfoController>();
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -56,17 +57,17 @@ namespace ConnectMe.Api.Controllers
 
         [HttpPost]
         [Route("findNearbyUsers")]
-        public IActionResult FindNearbyUsers(FindUserRequest request)
+        public async Task<IActionResult> FindNearbyUsers(FindUserRequest request)
         {
             request.NumberOfRecords = request.NumberOfRecords.HasValue ? request.NumberOfRecords : 10;
-            return new OkObjectResult(_userInfoService.FindNearbyUsers(request));
+            return new OkObjectResult(await _userInfoService.FindNearbyUsers(request));
         }
 
         [HttpPost]
         [Route("findNearbyWorkers")]
-        public IActionResult FindNearbyWorkers(FindUserRequest request)
+        public async Task<IActionResult> FindNearbyWorkers(FindUserRequest request)
         {
-            return new OkObjectResult(_userInfoService.FindNearbyWorkers(request));
+            return new OkObjectResult(await _userInfoService.FindNearbyWorkers(request));
         }
     }
 }

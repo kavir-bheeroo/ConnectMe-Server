@@ -60,9 +60,9 @@ namespace ConnectMe.Api.Services
             var distancesFromOrigin = new List<UserResourceModel>();
 
             // Calculate distance with all users. O(n)
-            await users.ForEachAsync(async u =>
+            await users.ForEachAsync(u =>
                 {
-                    var user = await _userManager.FindByIdAsync(u.Id);
+                    var user = _userManager.FindByIdAsync(u.UserId).Result;
 
                     distancesFromOrigin.Add(new UserResourceModel
                     {
@@ -98,7 +98,7 @@ namespace ConnectMe.Api.Services
             // Calculate distance with all users. O(n)
             await users.ForEachAsync(async u =>
             {
-                var user = await _userManager.FindByIdAsync(u.Id);
+                var user = await _userManager.FindByIdAsync(u.UserId);
 
                 // Add only workers.
                 if (user.IsWorker)
