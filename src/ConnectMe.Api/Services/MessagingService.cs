@@ -21,7 +21,7 @@ namespace ConnectMe.Api.Services
             _databaseContext = databaseContext;
         }
 
-        public async Task<HttpStatusCode> SendNotificationMessage(string currentUserId, string fromUserId, string deviceToken, string title, string body)
+        public async Task<HttpStatusCode> SendNotificationMessage(string currentUserId, string toUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -46,12 +46,12 @@ namespace ConnectMe.Api.Services
                 var httpResponse = await request.GetResponseAsync() as HttpWebResponse;
 
                 // Insert message in database.
-                _databaseContext.Message.Add(new Message
+                InsertMessage(new Message
                 {
                     Id = Guid.NewGuid().ToString(),
                     Body = body,
-                    UserId = currentUserId,
-                    FromUserId = fromUserId,
+                    UserId = toUserId,
+                    FromUserId = currentUserId,
                     IsRead = false,
                     Timestamp = DateTime.Now
                 });
@@ -64,7 +64,7 @@ namespace ConnectMe.Api.Services
             }
         }
 
-        public async Task<HttpStatusCode> SendDataMessage(string currentUserId, string fromUserId, string deviceToken, string title, string body)
+        public async Task<HttpStatusCode> SendDataMessage(string currentUserId, string toUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -89,12 +89,12 @@ namespace ConnectMe.Api.Services
                 var httpResponse = await request.GetResponseAsync() as HttpWebResponse;
 
                 // Insert message in database.
-                _databaseContext.Message.Add(new Message
+                InsertMessage(new Message
                 {
                     Id = Guid.NewGuid().ToString(),
                     Body = body,
-                    UserId = currentUserId,
-                    FromUserId = fromUserId,
+                    UserId = toUserId,
+                    FromUserId = currentUserId,
                     IsRead = false,
                     Timestamp = DateTime.Now
                 });
@@ -105,6 +105,15 @@ namespace ConnectMe.Api.Services
             {
                 return HttpStatusCode.InternalServerError;
             }
+        }
+
+        private void InsertMessage(Message message)
+        {
+            Task.Run(() =>
+            {
+                _databaseContext.Message.Add(message);
+                _databaseContext.SaveChanges();
+            });
         }
     }
 }
