@@ -73,7 +73,8 @@ namespace ConnectMe.Api.Services
                         Latitude = u.Latitude,
                         Longitude = u.Longitude,
                         FirstName = user.FirstName,
-                        LastName = user.LastName
+                        LastName = user.LastName,
+                        MessagingToken = u.MessagingToken
                     });
                 });
 
@@ -117,7 +118,8 @@ namespace ConnectMe.Api.Services
                         LastName = user.LastName,
                         PhoneNumber = user.PhoneNumber,
                         WorkerId = worker.Id,
-                        WorkerTypeId = worker.WorkerTypeId
+                        WorkerTypeId = worker.WorkerTypeId,
+                        MessagingToken = u.MessagingToken
                     });
                 }
             });
