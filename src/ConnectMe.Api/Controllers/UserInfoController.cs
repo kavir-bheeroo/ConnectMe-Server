@@ -60,14 +60,14 @@ namespace ConnectMe.Api.Controllers
         public async Task<IActionResult> FindNearbyUsers(FindUserRequest request)
         {
             request.NumberOfRecords = request.NumberOfRecords.HasValue ? request.NumberOfRecords : 10;
-            return new OkObjectResult(await _userInfoService.FindNearbyUsers(request));
+            return Ok(await _userInfoService.FindNearbyUsers(request));
         }
 
         [HttpPost]
         [Route("findNearbyWorkers")]
         public async Task<IActionResult> FindNearbyWorkers(FindUserRequest request)
         {
-            return new OkObjectResult(await _userInfoService.FindNearbyWorkers(request));
+            return Ok(await _userInfoService.FindNearbyWorkers(request));
         }
     }
 }

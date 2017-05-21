@@ -72,7 +72,8 @@ namespace ConnectMe.Api.Services
                         Latitude = u.Latitude,
                         Longitude = u.Longitude,
                         FirstName = user.FirstName,
-                        LastName = user.LastName
+                        LastName = user.LastName,
+                        MessagingToken = u.MessagingToken
                     });
                 });
 
