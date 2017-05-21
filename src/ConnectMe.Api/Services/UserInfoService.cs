@@ -117,7 +117,8 @@ namespace ConnectMe.Api.Services
                         LastName = user.LastName,
                         PhoneNumber = user.PhoneNumber,
                         WorkerId = worker.Id,
-                        WorkerTypeId = worker.WorkerTypeId
+                        WorkerTypeId = worker.WorkerTypeId,
+                        MessagingToken = u.MessagingToken
                     });
                 }
             });
