@@ -48,6 +48,7 @@ namespace ConnectMe.Api.Services
             _databaseContext.Worker.Add(
                 new Worker
                 {
+                    Id = Guid.NewGuid().ToString(),
                     UserId = request.UserId,
                     WorkerTypeId = request.WorkerTypeId
                 });
