@@ -21,7 +21,7 @@ namespace ConnectMe.Api.Services
             _databaseContext = databaseContext;
         }
 
-        public async Task<HttpStatusCode> SendNotificationMessage(string currentUserId, string deviceToken, string title, string body)
+        public async Task<HttpStatusCode> SendNotificationMessage(string currentUserId, string fromUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -48,9 +48,10 @@ namespace ConnectMe.Api.Services
                 // Insert message in database.
                 _databaseContext.Message.Add(new Message
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Body = body,
                     UserId = currentUserId,
-                    FromUserId = null, // todo: get from userinfo table
+                    FromUserId = fromUserId,
                     IsRead = false,
                     Timestamp = DateTime.Now
                 });
@@ -63,7 +64,7 @@ namespace ConnectMe.Api.Services
             }
         }
 
-        public async Task<HttpStatusCode> SendDataMessage(string currentUserId, string deviceToken, string title, string body)
+        public async Task<HttpStatusCode> SendDataMessage(string currentUserId, string fromUserId, string deviceToken, string title, string body)
         {
             try
             {
@@ -90,9 +91,10 @@ namespace ConnectMe.Api.Services
                 // Insert message in database.
                 _databaseContext.Message.Add(new Message
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Body = body,
                     UserId = currentUserId,
-                    FromUserId = null, // todo: get from userinfo table
+                    FromUserId = fromUserId,
                     IsRead = false,
                     Timestamp = DateTime.Now
                 });

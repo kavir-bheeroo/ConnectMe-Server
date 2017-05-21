@@ -27,7 +27,7 @@ namespace ConnectMe.Api.Controllers
         public async Task<IActionResult> SendNotificationMessageToCloud([FromBody]SendMessageRequest request)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var resultCode = await _messagingService.SendNotificationMessage(currentUser.Id, request.ReceiverToken, request.Title, request.Body);
+            var resultCode = await _messagingService.SendNotificationMessage(currentUser.Id, request.FromUserId, request.ReceiverToken, request.Title, request.Body);
 
             return resultCode == HttpStatusCode.OK ? new OkResult() : new StatusCodeResult((int)resultCode);
         }
@@ -37,7 +37,7 @@ namespace ConnectMe.Api.Controllers
         public async Task<IActionResult> SendDataMessageToCloud([FromBody]SendMessageRequest request)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var resultCode = await _messagingService.SendDataMessage(currentUser.Id, request.ReceiverToken, request.Title, request.Body);
+            var resultCode = await _messagingService.SendDataMessage(currentUser.Id, request.FromUserId, request.ReceiverToken, request.Title, request.Body);
 
             return resultCode == HttpStatusCode.OK ? new OkResult() : new StatusCodeResult((int)resultCode);
         }
